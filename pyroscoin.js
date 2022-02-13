@@ -1,14 +1,12 @@
 const SHA256 = require('crypto-js/sha256');//javascript library to calculate hash of each block
 
 class BlockCrypto{
-    //constructor to initialize the properperties of each block
-    constructor (index, current_time, info, prevHash=""){
-        this.index = index;
-        this.current_time = current_time;
+    //constructor to initialize the properties of each block
+    constructor (info, prevHash=""){
         this.info = info;
         this.prevHash=prevHash;
-        this.hash = this.computeHash();//calculat hash using SHA256
-        console.log(`Block ${index} created...`);
+        this.hash = this.computeHash();//calculate hash using SHA256
+        console.log(`new Block created...`);
 
     }
     computeHash() {
@@ -36,7 +34,7 @@ class Blockchain{
     //new block
     addNewBlock(newBlock) {
         newBlock.index = this.block1chain.length;
-        newBlock.current_time = new Date().toISOString()
+        newBlock.current_time = new Date().toISOString();
         newBlock.prevHash = this.latestBlock().hash;
         newBlock.hash = newBlock.computeHash();
         newBlock.hash = newBlock.computeHash();
@@ -52,12 +50,10 @@ class Blockchain{
             const prevBlock = this.block1chain[i-1];
             //checking current block hash
             if (currentBlock.hash!==currentBlock.computeHash()){
-                console.log('failed at =>currentBlock!==currentBlock.computeHash()')
                 return false
             }
             //comparing current block hash with the next block
             if (currentBlock.prevHash !==prevBlock.hash){
-                console.log('failed at =>currentBlock.prevHash !==prevBlock.hash')
                 return false
             }
             return 'Blockchain passed validation test!!!...'
